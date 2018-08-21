@@ -1,0 +1,26 @@
+.weather-wrapper{
+  position: relative;
+  padding-top: 174rpx;
+  padding-bottom: 250rpx;
+}
+.temp{
+  text-align: center;
+  font-size: 200rpx; /*规定字体大小*/
+  line-height: 280rpx;
+  opacity: 0.8;
+  
+}
+.weather{
+  text-align: center;
+  opacity: 0.8;
+  font-size: 40rpx
+}
+.weather-bg{
+  position: absolute;
+  z-index: -1;
+  top : 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+}
