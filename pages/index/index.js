@@ -24,7 +24,7 @@ Page({
     nowtemp: "",
     nowweather: "",
     nowweatherbackground: "",
-    forecast: []
+    hourlyWeather: []
   },
   // 主要函数 ------------------------------------------------------------------
   getNow(callback) {
@@ -46,7 +46,6 @@ Page({
       // 所以要引入认为命名的变量res
       // 箭头函数是一种匿名函数，匿名函数不会复用
       success: res => {
-        console.log(res.data)
         let result = res.data.result
         let temp = result.now.temp
         let weather = result.now.weather
@@ -62,7 +61,7 @@ Page({
           frontColor: '#000000',
           backgroundColor: weatherColorMap[weather],
         })
-
+        console.log(result)
         //  1 构造forecast数据 我的
         //   let forecast1 = []
         //   for (let i = 0 ; i<24 ; i++){
@@ -83,19 +82,19 @@ Page({
 
         // 2 构造forecast数据 老师的 forcest = [{time:1,icnopath:xxx temp:12},{.....}]
         let nowHour = new Date().getHours()
-        let forecast = []
+        let hourlyweather = []
         // for x+=y 等价于 x = x+y
         for (let i = 0; i < 24; i+=3) {
-          forecast.push({
+          hourlyweather.push({
             time: (i + nowHour)%24 + "时",
             iconpath: "/images/cloudy-icon.png",
             temp: 12
           })
         }
-        forecast[0].time = "现在"
+        hourlyweather[0].time = "现在"
         // this.setData({直接写jason就行了，或者写包含json的对象})
         this.setData({
-          forecast
+          hourlyweather
         })
       },
 

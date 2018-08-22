@@ -13,7 +13,7 @@
     <!-- <view wx:for="{{array}}">
     {{index}}: {{item.message}}  、、（index）是指针，item是json有属性，不一定是一个字符
     </view> -->
-    <view class='forecast-item' wx:for="{{forecast}}">
+    <view class='forecast-item' wx:for="{{hourlyweather}}">
 
       <view class='forecast-time'> {{item.time}}</view>
       <image class='forecast-weather' src='{{item.iconpath}}'></image>
