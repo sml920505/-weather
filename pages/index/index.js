@@ -84,13 +84,15 @@ Page({
         // 2 构造forecast数据 老师的 forcest = [{time:1,icnopath:xxx temp:12},{.....}]
         let nowHour = new Date().getHours()
         let forecast = []
-        for (let i = 0; i < 24; i+3) {
+        // for x+=y 等价于 x = x+y
+        for (let i = 0; i < 24; i+=3) {
           forecast.push({
             time: (i + nowHour)%24 + "时",
             iconpath: "/images/cloudy-icon.png",
             temp: 12
           })
         }
+        forecast[0].time = "现在"
         // this.setData({直接写jason就行了，或者写包含json的对象})
         this.setData({
           forecast
