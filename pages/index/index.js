@@ -47,6 +47,7 @@ Page({
       // 箭头函数是一种匿名函数，匿名函数不会复用
       success: res => {
         let result = res.data.result
+        
         let temp = result.now.temp
         let weather = result.now.weather
         console.log(temp, weather)
@@ -83,12 +84,14 @@ Page({
         // 2 构造forecast数据 老师的 forcest = [{time:1,icnopath:xxx temp:12},{.....}]
         let nowHour = new Date().getHours()
         let hourlyweather = []
+        let forecast = result.forecast
         // for x+=y 等价于 x = x+y
-        for (let i = 0; i < 24; i+=3) {
+        // 因为api传过来的forecast只有8个
+        for (let i = 0; i < 8; i += 1) {
           hourlyweather.push({
-            time: (i + nowHour)%24 + "时",
-            iconpath: "/images/cloudy-icon.png",
-            temp: 12
+            time: (i*3 + nowHour) + "时",
+            iconpath: "/images/" + forecast[i].weather +"-icon.png",
+            temp: forecast[i].temp
           })
         }
         hourlyweather[0].time = "现在"
@@ -97,7 +100,7 @@ Page({
           hourlyweather
         })
       },
-
+        
 
 
 
