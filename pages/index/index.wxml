@@ -1,5 +1,24 @@
 <view class='weather-wrapper'>
-<view class = "temp">{{nowtemp}}</view>
-<view class='weather'>{{nowweather}}</view>
-<image class='weather-bg' src="{{nowweatherbackground}}" mode='scaleToFill'></image>
+  <view class="temp">{{nowtemp}}</view>
+  <view class='weather'>{{nowweather}}</view>
+  <image class='weather-bg' src="{{nowweatherbackground}}" mode='scaleToFill'></image>
 </view>
+<view class='timetips'>
+  <image class='timetips-icon' src='/images/time-icon.png'></image>
+  <view class='timetips-text'>未来24小时天气预测</view>
+</view>
+
+<scroll-view scroll-x>
+  <view class='forecast-list'>
+    <!-- <view wx:for="{{array}}">
+    {{index}}: {{item.message}}  、、（index）是指针，item是json有属性，不一定是一个字符
+    </view> -->
+    <view class='forecast-item' wx:for="{{forecast}}">
+
+      <view class='forecast-time'> {{item.time}}</view>
+      <image class='forecast-weather' src='{{item.iconpath}}'></image>
+      <view class='forecast-temp'>{{item.temp}}</view>
+    
+    </view>
+  </view>
+</scroll-view>

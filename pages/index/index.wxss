@@ -24,3 +24,51 @@
   height: 100%;
   
 }
+.timetips{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40rpx;  
+  margin-bottom: 40rpx
+}
+.timetips-icon{
+  width: 36rpx;
+  height: 28rpx;
+  margin-right: 10rpx
+
+}
+.timetips-text{
+  font-size: 30rpx;
+  line-height: 42rpx;
+  opacity: 0.5
+}
+.forecast-list{
+  display: flex;
+  flex-direction: row;
+}
+.forecast-item{
+  display: flex;
+  width: 120rpx;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  /* 元素相对于底衬对其 */
+  /* justify-content: 元素之间对称 */
+
+}
+.forecast-time {
+  font-size: 30rpx;
+  line-height: 42rpx;
+}
+
+.forecast-weather {
+  margin-top: 50rpx;
+  margin-bottom: 50rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.forecast-temp {
+  font-size: 40rpx;
+  line-height: 56rpx
+}
