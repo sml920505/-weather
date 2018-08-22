@@ -24,7 +24,7 @@ Page({
     nowweather : "",
     nowweatherbackground : ""
   },
-// 主要函数 ------------------------------------------------------------------
+  // 主要函数 ------------------------------------------------------------------
   getNow (callback) {
     wx.request({
       // 请求的参数就是一个json
@@ -37,11 +37,12 @@ Page({
       },
       // json的值可以是一个函数
       // success后返回一个json对象
-      // 箭头函数不会创建自己的this, 它只会从自己的作用域链的上一层继承this。
+      // 箭头函数不会创建自己的this, 它只会从自己的作用域链的上一层继承this所指代的对象。
       // 上一层就是wx.request
-      //这里success后,的值是一个Function函数
+      // 这里success后,的值是一个Function函数
       // 成功之后返回的是一个json对象,这个对象需要你个变量做内存空间,
       // 所以要引入认为命名的变量res
+      // 箭头函数是一种匿名函数，匿名函数不会复用
       success:res =>{
         console.log(res.data)
         let result = res.data.result
@@ -63,6 +64,7 @@ Page({
       complete: () => {
         callback && callback()
       }
+      // callback是构造函数 callback是执行函数
     })
   },
  
@@ -107,10 +109,12 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.getNow(()=>{
+    this.getNow(
+      ()=>{
       wx.stopPullDownRefresh()
     })
     },
+    // 参数应该是一个函数，而不是函数的结果
 
   
   /**
