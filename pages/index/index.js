@@ -15,6 +15,8 @@ const weatherColorMap = {
   'snow': '#aae1fc'
 }
 Page({
+  // -----------------增强的对象字面量 可以不用写fuction，Page(Object) 函数用来注册一个页面。接受一个 Object 类型参数，其指定页面的初始数据、生命周期函数、事件处理函数等。
+
 
   /**
    * 页面的初始数据
@@ -26,7 +28,7 @@ Page({
     nowweatherbackground: "",
     hourlyWeather: []
   },
-  // 主要函数 ------------------------------------------------------------------
+  // 主要函数 在page下面- 作为--------------
   getNow(callback) {
     wx.request({
       // 请求的参数就是一个json
@@ -47,61 +49,9 @@ Page({
       // 箭头函数是一种匿名函数，匿名函数不会复用
       success: res => {
         let result = res.data.result
-        
-        let temp = result.now.temp
-        let weather = result.now.weather
-        console.log(temp, weather)
-        this.setData({
-          nowtemp: temp + "°",
-          nowweather: weatherMap[weather],
-          nowweatherbackground: "/images/" + weather + "-bg.png"
-        })
-
-        // 根据返回设置导航栏颜色
-        wx.setNavigationBarColor({
-          frontColor: '#000000',
-          backgroundColor: weatherColorMap[weather],
-        })
-        console.log(result)
-        //  1 构造forecast数据 我的
-        //   let forecast1 = []
-        //   for (let i = 0 ; i<24 ; i++){
-        //     forecast1.push(
-        //       {
-        //         time:i,
-        //         iconpath:"/images/cloudy-icon.png",
-        //         temp: 12
-        //       }
-        //     )
-        //   }
-        //   // this.setData({直接写jason就行了，或者写包含json的对象})
-        //   this.setData({
-        //     forecast:forecast1
-        //   }) 
-        // },
-
-
-        // 2 构造forecast数据 老师的 forcest = [{time:1,icnopath:xxx temp:12},{.....}]
-        let nowHour = new Date().getHours()
-        let hourlyweather = []
-        let forecast = result.forecast
-        // for x+=y 等价于 x = x+y
-        // 因为api传过来的forecast只有8个
-        for (let i = 0; i < 8; i += 1) {
-          hourlyweather.push({
-            time: (i*3 + nowHour) + "时",
-            iconpath: "/images/" + forecast[i].weather +"-icon.png",
-            temp: forecast[i].temp
-          })
-        }
-        hourlyweather[0].time = "现在"
-        // this.setData({直接写jason就行了，或者写包含json的对象})
-        this.setData({
-          hourlyweather
-        })
+        this.setNow(result)
+        this.setHourlyweather(result)
       },
-        
-
 
 
 
@@ -113,11 +63,56 @@ Page({
     })
   },
 
-  // ------------------------------------------------------------------
+  setNow(result) {
+    let temp = result.now.temp
+    let weather = result.now.weather
+    console.log(temp, weather)
+    this.setData({
+      nowtemp: temp + "°",
+      nowweather: weatherMap[weather],
+      nowweatherbackground: "/images/" + weather + "-bg.png"
+    })
+
+    // 根据返回设置导航栏颜色
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: weatherColorMap[weather],
+    })
+    console.log(result)
+  },
+
+
+  setHourlyweather(result) {
+    // 2 构造forecast数据 老师的 forcest = [{time:1,icnopath:xxx temp:12},{.....}]
+    let nowHour = new Date().getHours()
+    let hourlyweather = []
+    let forecast = result.forecast
+    // for x+=y 等价于 x = x+y
+    // 因为api传过来的forecast只有8个
+    for (let i = 0; i < 8; i += 1) {
+      hourlyweather.push({
+        time: (i * 3 + nowHour) + "时",
+        iconpath: "/images/" + forecast[i].weather + "-icon.png",
+        temp: forecast[i].temp
+      })
+    }
+    hourlyweather[0].time = "现在"
+    // this.setData({直接写jason就行了，或者写包含json的对象})
+    this.setData({
+      hourlyweather
+    })
+  },
+
+
+
+
+
+
+  // ------
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad() {
     this.getNow()
     // 在json中 this 是调用函数的那个对象page,来引入上面的getnow
   },
