@@ -1,8 +1,26 @@
 <view class='weather-wrapper'>
+  <view class='location-wrapper'>
+    <image class='location-icon' src='/images/location-icon.png'></image>
+    <view class='location'>{{city}}</view>
+  </view>
+  <view class='location-tips' bindtap='onTaplocation'>{{Locationtips}}</view>
+
   <view class="temp">{{nowtemp}}</view>
   <view class='weather'>{{nowweather}}</view>
   <image class='weather-bg' src="{{nowweatherbackground}}" mode='scaleToFill'></image>
+  
+  <!-- 未来预测 -->
+  <view class='day-weather' bindtap ="onTapDayWeather">
+    <view class='day-text'>{{todayDate}}</view>
+    <view class='temp-text'>{{todayTemp}}</view>
+    <image class='arrow-icon' src='/images/arrow.png'></image>
+  </view>
 </view>
+
+
+
+<!-- 本日分时预测 -->
+
 <view class='timetips'>
   <image class='timetips-icon' src='/images/time-icon.png'></image>
   <view class='timetips-text'>未来24小时天气预测</view>

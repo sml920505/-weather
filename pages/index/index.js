@@ -14,8 +14,13 @@ const weatherColorMap = {
   'heavyrain': '#c5ccd0',
   'snow': '#aae1fc'
 }
+const QQMapWX = require('../../libs/qqmap-wx-jssdk.js')
+// ../是父级地址，是相对于pages/index/index.js/的上级上级下的qqmap.js
+var qqmapsdk;
+
+
 Page({
-  // -----------------增强的对象字面量 可以不用写fuction，Page(Object) 函数用来注册一个页面。接受一个 Object 类型参数，其指定页面的初始数据、生命周期函数、事件处理函数等。
+  // -----------------增强的对象字面量 可以不用写fuction，Page(Object) 函数用来注册 一个页面。接受一个 Object 类型参数，其指定页面的初始数据、生命周期函数、事件处理函数等。
 
 
   /**
@@ -26,16 +31,21 @@ Page({
     nowtemp: "",
     nowweather: "",
     nowweatherbackground: "",
-    hourlyWeather: []
+    hourlyWeather: [],
+    todayText: "",
+    todayTemp: " ",
+    city: "北京市 ",
+    Locationtips:"点击获取位置"
+
   },
   // 主要函数 在page下面- 作为--------------
+  // 主页请求函数，请求后储存数据
   getNow(callback) {
     wx.request({
       // 请求的参数就是一个json
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
-        city: "广州市"
-      },
+        city: "this.data.city"},
       header: {
         "content-type": "application/json"
       },
@@ -51,9 +61,10 @@ Page({
         let result = res.data.result
         this.setNow(result)
         this.setHourlyweather(result)
+        this.setToday(result)
+
+        // 如果不输入this 会提示 setNow()没被定义，说明 page内部的{...}是一个对象，Data是         这个对象的一个属性，这个对象没有名字，就叫this。this.setNow            this.sethourlyweather都是{}的属性  
       },
-
-
 
       // 回调函数开始
       complete: () => {
@@ -62,7 +73,7 @@ Page({
       // callback是构造函数 callback是执行函数
     })
   },
-
+  // 设置函数1-1 （根据请求来的结果设置）
   setNow(result) {
     let temp = result.now.temp
     let weather = result.now.weather
@@ -81,7 +92,7 @@ Page({
     console.log(result)
   },
 
-
+  // 设置函数1-2
   setHourlyweather(result) {
     // 2 构造forecast数据 老师的 forcest = [{time:1,icnopath:xxx temp:12},{.....}]
     let nowHour = new Date().getHours()
@@ -99,10 +110,60 @@ Page({
     hourlyweather[0].time = "现在"
     // this.setData({直接写jason就行了，或者写包含json的对象})
     this.setData({
+      // hourlyweather
       hourlyweather
     })
   },
 
+  // 设置函数1-3
+  setToday(result) {
+    let date = new Date()
+    this.setData({
+      todayTemp: `
+      ${result.today.minTemp}° - ${result.today.maxTemp}°
+      `,
+      todayDate: `
+      ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} 今天
+      `
+    })
+
+
+  },
+
+  // 跳转未来天气 页面
+  onTapDayWeather() {
+
+    wx.navigateTo({
+      url: '/pages/list/list?city=' + this.data.city,
+      // 调用对象的时候用this
+      // page 就叫list 创建的时候就创建的list，wxml是根据page自动生成的
+    })
+  },
+
+  // 点击获取位置 #####
+  onTaplocation() {
+    wx.getLocation({
+      success: (res) => {
+       
+        // 得到经纬度
+        qqmapsdk.reverseGeocoder({
+          location:{
+            latitude: res.latitude,
+            longitude: res.longitude
+          },
+          success:res=>{
+            console.log(res.result.address_component.city)   
+            this.setData({
+              city: res.result.address_component.city,
+              Locationtips : ""
+            })
+            }
+        })
+        this.getNow()
+      },
+    })
+
+  },
 
 
 
@@ -112,7 +173,13 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
+  onLoad: function() {
+
+    // 实例化API核心类
+    qqmapsdk = new QQMapWX({
+      key: 'RPABZ-RMCE6-CSWST-EPVVW-NHBRJ-PTFRU'
+    });
+
     this.getNow()
     // 在json中 this 是调用函数的那个对象page,来引入上面的getnow
   },

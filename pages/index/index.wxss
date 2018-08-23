@@ -1,6 +1,6 @@
 .weather-wrapper{
   position: relative;
-  padding-top: 174rpx;
+  padding-top: 20rpx;
   padding-bottom: 250rpx;
 }
 .temp{
@@ -71,4 +71,71 @@
 .forecast-temp {
   font-size: 40rpx;
   line-height: 56rpx
+}
+
+
+.day-weather {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  position: absolute;
+  bottom:0;
+  /* abusolute必用 绝对定位-边缘的位置 */
+  left: 40rpx;
+  right: 40rpx;
+  height: 90rpx;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 30rpx;
+  line-height: 42rpx;
+  color: rgba(0, 0, 0, 0.5)
+}
+.temp-text{
+  position: absolute;
+  right: 30rpx
+}
+.arrow-icon {
+  width: 13rpx;
+  height: 24rpx;
+  position: absolute;
+  right: 0rpx
+}
+
+.location-icon{
+  height: 30rpx;
+  width: 22rpx;
+  padding-right: 15rpx;
+  
+}
+
+.location{
+    line-height: 42 rpx;
+    font-size: 30rpx;
+    opacity: 0.6
+    
+}
+.location-tips{
+    margin-top: 10 rpx;
+    height: 42rpx;
+    line-height: 42 rpx;
+    text-align: center;
+    font-size: 30rpx;
+    padding-top: 15rpx;
+    opacity: 0.6;
+    padding-bottom: 70rpx
+    
+    
+    
+}
+.location-wrapper{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    
+    
+    
+    
+    
+    
 }
